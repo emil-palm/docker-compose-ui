@@ -31,6 +31,11 @@ angular.module('composeUiApp')
                   remove: {
                       method: 'DELETE',
                       url: 'api/v1/remove-project/:id'
+                  },
+                  restartService: {
+                    method: 'POST',
+                    url: 'api/v1/restart_service',
+                    data: {'id':':projectId', 'barfo': ':serviceName'}
                   }
               });
 
@@ -166,6 +171,21 @@ angular.module('composeUiApp')
                       }
                   });
               };
+
+              $scope.restartService = function(projectId, container) {
+                var serviceName = container['labels']['com.docker.compose.service']
+                alertify.confirm('Do you really want to restart service ' + serviceName + '?', function (restart) {
+                  if (restart) {
+                    Project.restartService({id: $scope.projectId, serviceName: serviceName}, function() {
+                      alertify.message('Restarted '+ serviceName + ' in project ' + projectId)
+                      $scope.$parent.reload(false);
+                      $location.path('/');
+                    }, function(r) {
+                       alertify.error('cannot restart ' + projectId + ': ' + r.data);
+                    })
+                  }
+                })
+              }
 
 
           }

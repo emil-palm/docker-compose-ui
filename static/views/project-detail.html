@@ -64,6 +64,7 @@
 				<button class="btn btn-xs btn-default" ng-click="displayLogs(container.name)">logs</button>
 				<a class="btn btn-xs btn-default" ng-href="#/project/{{projectId}}/{{container.name}}">details</a>
 				<button class="btn btn-xs btn-default" ng-click="rebuild(id)">rebuild</button>
+        <button class="btn btn-xs btn-default" ng-click="restartService(projectId, container)">restart service</button>
 			
 				<div class="btn-group" role="group" ng-show="containerConsolePattern">
 					<button class="btn btn-xs btn-default dropdown-toggle" type="button" id="shellSelector" data-toggle="dropdown">

@@ -377,6 +377,23 @@ def restart():
     get_project_with_name(name).restart()
     return jsonify(command='restart')
 
+@app.route(API_V1 + "restart_service", methods=['POST'])
+@requires_auth
+def restart_service():
+    """
+    docker-compose restart $service_name
+    """
+
+    json = loads(request.data)
+    project = get_project_with_name(json['id'])
+    project.restart(service_names=[json['serviceName']])
+
+    return jsonify(command='restart')
+
+
+
+
+
 @app.route(API_V1 + "logs/<name>", defaults={'limit': "all"}, methods=['GET'])
 @app.route(API_V1 + "logs/<name>/<int:limit>", methods=['GET'])
 def logs(name, limit):
